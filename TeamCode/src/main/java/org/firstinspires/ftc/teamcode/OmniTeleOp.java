@@ -165,6 +165,7 @@ public class OmniTeleOp extends OpMode {
         robot.performLifting();
         robot.performReleasing();
         robot.performStowing();
+        robot.performCapstone();
 
         robot.drive(speedMultiplier * xPower, speedMultiplier * yPower, spinMultiplier * spin, driverAngle);
 
