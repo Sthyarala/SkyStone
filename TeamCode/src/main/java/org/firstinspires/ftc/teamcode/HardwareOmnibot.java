@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class HardwareOmnibot extends HardwareOmnibotDrive
 {
+
     public enum LiftActivity {
         IDLE,
         GRABBING_STONE,
@@ -34,6 +35,12 @@ public class HardwareOmnibot extends HardwareOmnibotDrive
         RAISING_TO_ROTATE,
         ROTATING,
         LOWERING_TO_STOW,
+        STOPPING
+    }
+
+    public enum CapstoneActivity {
+        IDLE,
+        RETRACTING,
         STOPPING
     }
 
@@ -217,6 +224,7 @@ public class HardwareOmnibot extends HardwareOmnibotDrive
     public LiftActivity liftState = LiftActivity.IDLE;
     public ReleaseActivity releaseState = ReleaseActivity.IDLE;
     public StowActivity stowState = StowActivity.IDLE;
+    public CapstoneActivity capstoneState = CapstoneActivity.IDLE;
     private boolean fingersUp = true;
     private boolean clawPinched = false;
     private boolean clawdricopterBack = false;
@@ -329,6 +337,26 @@ public class HardwareOmnibot extends HardwareOmnibotDrive
 			default:
 				break;
 		}
+    }
+
+    public void startCapstone()  {
+       if(capstoneState == CapstoneActivity.IDLE) {
+          if(releaseState != ReleaseActivity.IDLE) {
+              releaseState = ReleaseActivity.STOPPING;
+          }
+          if(stowState != StowActivity.IDLE) {
+              stowState = StowActivity.STOPPING;
+          }
+           if(liftState != LiftActivity.IDLE) {
+               liftState = LiftActivity.STOPPING;
+           }
+          capstoneState = CapstoneActivity.RETRACTING;
+           extendIntake(ExtendPosition.RETRACTED);
+           stopIntake();
+       }
+    }
+
+    public void performCapstone() {
     }
 
     public void startReleasing() {
