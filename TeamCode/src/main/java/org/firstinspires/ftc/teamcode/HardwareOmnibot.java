@@ -353,10 +353,23 @@ public class HardwareOmnibot extends HardwareOmnibotDrive
           capstoneState = CapstoneActivity.RETRACTING;
            stopIntake();
            extendIntake(ExtendPosition.CAPSTONE);
+
        }
     }
 
     public void performCapstone() {
+        switch(capstoneState){
+            case RETRACTING:
+                if (Math.abs(extender.getCurrentPosition() - ExtendPosition.CAPSTONE.getEncoderCount()) < 10) {
+                    capstoneState = CapstoneActivity.IDLE;
+                    startLifting();
+                }
+                break;
+            case STOPPING:
+                capstoneState = CapstoneActivity.IDLE;
+            case IDLE:
+                break;
+        }
     }
 
     public void startReleasing() {
