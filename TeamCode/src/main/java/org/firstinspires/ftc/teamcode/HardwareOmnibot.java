@@ -351,8 +351,8 @@ public class HardwareOmnibot extends HardwareOmnibotDrive
                liftState = LiftActivity.STOPPING;
            }
           capstoneState = CapstoneActivity.RETRACTING;
-           extendIntake(ExtendPosition.RETRACTED);
            stopIntake();
+           extendIntake(ExtendPosition.CAPSTONE);
        }
     }
 
